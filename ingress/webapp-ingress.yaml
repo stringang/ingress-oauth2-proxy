@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: webapp
+  namespace: webapp
+  labels:
+    app: webapp
+  annotations:
+    # rd 参数表示认证成功后客户端重定向地址，oauth2-proxy 也支持从 headers 参数获取
+    nginx.ingress.kubernetes.io/auth-signin: 'http://oauth2-proxy.example.com/oauth2/start?rd=$scheme://$host$request_uri'
+    nginx.ingress.kubernetes.io/auth-url: 'http://oauth2-proxy.oauth2-proxy.svc.cluster.local/oauth2/auth'
+spec:
+  rules:
+    - host: "webapp.example.com"
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: webapp
+                port:
+                  number: 80

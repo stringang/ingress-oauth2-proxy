@@ -1,0 +1,36 @@
+---
+# Source: oauth2-proxy/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app: oauth2-proxy
+    helm.sh/chart: oauth2-proxy-7.7.9
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: authentication-proxy
+    app.kubernetes.io/part-of: oauth2-proxy
+    app.kubernetes.io/name: oauth2-proxy
+    app.kubernetes.io/instance: oauth2-proxy
+    app.kubernetes.io/version: "7.6.0"
+  name: oauth2-proxy
+  namespace: oauth2-proxy
+data:
+  oauth2_proxy.cfg: |-
+    email_domains = [ "*" ]
+    upstreams = [ "file:///dev/null" ]
+    reverse_proxy = true
+    provider = "oidc"
+    provider_display_name = "xxxxx"
+    oidc_issuer_url = "https://xxxx.com"
+    whitelist_domains = ["*.example.com"]
+    cookie_secure = false
+    cookie_domains = [".example.cn"]
+    cookie_samesite = "lax"
+    # redirect_url = "http://oauth2-proxy.example.com/oauth2/callback"
+    # set_authorization_header = true
+    # set_xauthrequest = true
+    # pass_access_token = true
+    # pass_authorization_header = true
+    # pass_user_headers = true
+    silence_ping_logging = true
+    errors_to_info_log = true
